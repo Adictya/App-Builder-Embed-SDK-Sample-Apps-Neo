@@ -1,0 +1,27 @@
+{
+  "name": "react-app-2",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.8",
+    "@appbuilder/react": "file:../../../../../../../home/adictya/dev/agora/projects/app-builder-core/Builds/react-sdk/appbuilder-react-4.0.0-8h1z1vPfoV.tgz",
+    "@appbuilder/web": "file:../../app-builder-core/Builds/web-sdk/appbuilder-web-4.0.0-58p0T3RjWA.tgz",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^5.3.4",
+    "react-router-dom6": "npm:react-router-dom@^6.8.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react-swc": "^3.0.0",
+    "vite": "^4.1.0",
+    "vite-plugin-node-polyfills": "^0.7.0"
+  }
+}

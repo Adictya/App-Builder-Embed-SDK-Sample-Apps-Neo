@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="script.js"></script>
+  <script>
+    window.React = AgoraAppBuilder.React;
+    const React = AgoraAppBuilder.React;
+  </script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="index.css" />
+
+    <!-- AgoraAppBuilder.default.customize({ -->
+    <!--   components:{ -->
+    <!--     videoCall:() => AgoraAppBuilder.React.createElement("div",null), -->
+    <!--   } -->
+    <!-- }) -->
+    <!-- } -->
+  <script type="text/babel">
+    // Install FPE
+    function addFpe(){
+    console.log("FPE",AgoraAppBuilder)}
+    addFpe();
+
+    function joinMeeting() {
+      AgoraAppBuilder.default.join(document.getElementById("meetingId").value)
+    }
+
+    const unsubs = [
+      AgoraAppBuilder.default.on("create", (hostMeetingId, attendeeMeetingId, pstnNumber) => {
+        console.log("HTML Host App: Meeting created with", {
+          hostMeetingId,
+          attendeeMeetingId,
+          pstnNumber,
+        });
+      }),
+      AgoraAppBuilder.default.on("preJoin", (meetingTitle, deviceList) => {
+        console.log("HTML Host App: precall with", { meetingTitle, deviceList });
+      }),
+      AgoraAppBuilder.default.on("join", (meetingTitle, deviceList, isHost) => {
+        console.log("HTML Host App: Meeting joined with", { meetingTitle, deviceList, isHost });
+      }),
+      AgoraAppBuilder.default.on("leave", () => {
+        console.log("HTML Host App: Meeting left");
+      })
+    ]
+
+    function Unsubscribe() {
+      unsubs.forEach((v) => v());
+    }
+
+  </script>
+</head>
+
+<body>
+  <div class="App">
+    <div class="header">
+      <span>My HTML App</span>
+      <input id="meetingId" type="text" placeholder="Room id"></input>
+      <button onclick="joinMeeting()">Join</button>
+      <button onclick="addFpe()">FPE</button>
+      <button onclick="Unsubscribe()">Unsubscribe</button>
+    </div>
+    <div style=" display: flex; flex: 1 ">
+      <app-builder />
+    </div>
+  </div>
+</body>
+
+</html>
