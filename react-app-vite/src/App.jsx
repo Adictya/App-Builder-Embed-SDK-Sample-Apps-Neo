@@ -4,21 +4,6 @@ import AppBuilderReactSdk from "@appbuilder/react";
 
 // AppBuilderReactSdk.join("7c448c17-d515-4dfa-ba7a-10bac8d4c71d");
 
-let tempMeetingInfo = {
-  channel: "242facdcfd8c4ffaacdd61ebc1697247",
-  uid: 216351712,
-  token:
-    "006b8c2ef0f986541a8992451c07d30fb4bIABQX38x1JCW5BaZdYjjxu+0d1Mv1Nt3HiUciJ+aXf23T42vZbtnRwzoIgD7Eq0ARuL3YwQAAQBG4vdjAgBG4vdjAwBG4vdjBABG4vdj",
-  rtmToken:
-    "006b8c2ef0f986541a8992451c07d30fb4bIADtRM/uKFFpFyWFef75nlPQxhDT9/aS/3lUjQcWtaOjGWdHDOgAAAAAEAC8iqQARuL3YwEA6ANG4vdj",
-  encryptionSecret: "80349810571043b1b4bf31bc19f118e6",
-  screenShareUid: 232664817,
-  screenShareToken:
-    "006b8c2ef0f986541a8992451c07d30fb4bIACWB7dB5AJ7uI2AIIZIfcoChV19Xu/PM2hNWAlrb1B65o2vZbvqzOMFIgAuIhQFRuL3YwQAAQBG4vdjAgBG4vdjAwBG4vdjBABG4vdj",
-  isHost: true,
-  meetingTitle: "dsf",
-};
-
 function log(...args) {
   console.log("[React HOST App]: ", ...args);
 }
@@ -27,8 +12,6 @@ function App() {
   const eventUnsubscriptionEvents = useRef([]);
   const [inPrecall, setInPrecall] = useState(false);
   const joinRoomRef = useRef(() => {});
-  const [precallEnabled, setPrecallEnabled] = useState(true);
-  const joinMeetingInfo = useRef(tempMeetingInfo);
 
   const fetchMeetingData = async (meetingId) => {
     const response = await fetch(
@@ -89,7 +72,7 @@ function App() {
     return meetingInfo;
   };
 
-  const sdkJoin = async (meetingInfo) => {
+  const sdkJoin = async (meetingInfo, precallEnabled) => {
     let recievedMeetingData;
     let concurrencyTest = false;
     setInPrecall(false);
@@ -122,7 +105,7 @@ function App() {
   };
 
   useEffect(() => {
-    sdkJoin("7c448c17-d515-4dfa-ba7a-10bac8d4c71d");
+    // sdkJoin("7c448c17-d515-4dfa-ba7a-10bac8d4c71d");
     const myCustomization = AppBuilderReactSdk.createCustomization({
       // components: {
       //   // appRoot: () => <div>hi</div>,
@@ -164,30 +147,51 @@ function App() {
         });
       }
     );
+
     const unsubLeaveEvent = AppBuilderReactSdk.on("leave", () => {
       setInPrecall(false);
       log("React Host App: left");
     });
+
+    // 'rtc-user-published': (uid: UidType, trackType: 'audio' | 'video') => void;
+    // 'rtc-user-unpublished': (uid: UidType, trackType: 'audio' | 'video') => void;
+    // 'rtc-user-joined': (uid: UidType) => void;
+    // 'rtc-user-left': (uid: UidType) => void;
+
+    const rtcEvents = [
+      AppBuilderReactSdk.on("rtc-user-joined", (...params) => {
+        log("RTC USER JOINED", params);
+      }),
+      AppBuilderReactSdk.on("rtc-user-left", (...params) => {
+        log("RTC USER LEFT", params);
+      }),
+      AppBuilderReactSdk.on("rtc-user-unpublished", (...params) => {
+        log("RTC USER unpublished", params);
+      }),
+      AppBuilderReactSdk.on("rtc-user-published", (...params) => {
+        log("RTC USER published", params);
+      }),
+    ];
 
     eventUnsubscriptionEvents.current = [
       unsubCreateEvent,
       unsubReadyToJoinEvent,
       unsubJoinEvent,
       unsubLeaveEvent,
+      ...rtcEvents,
     ];
+    AppBuilderReactSdk.customEvents.on("MyEvent", () => {
+      console.log("got my event");
+    });
 
     return () => {
       unsubCreateEvent();
       unsubReadyToJoinEvent();
       unsubJoinEvent();
       unsubLeaveEvent();
+      rtcEvents.forEach((e) => e());
     };
   }, []);
-
-  const joinMeeting = () => {
-    log(document.getElementById("meetingId").value);
-    AppBuilderReactSdk.joinRoom(document.getElementById("meetingId").value);
-  };
 
   const unsubscribe = () => {
     eventUnsubscriptionEvents.current.forEach((element) => {
@@ -202,31 +206,40 @@ function App() {
     <div className="App">
       <div className="header">
         <span>My React App</span>
-        <button
-          onClick={() => {
-            setPrecallEnabled((e) => !e);
-          }}
-          style={!precallEnabled ? {} : { backgroundColor: "red" }}
-        >
-          {precallEnabled ? "Disable" : "Enable"} precall
-        </button>
         <input id="meetingId" type="text" placeholder="Room id"></input>
         <button
           onClick={async () => {
             const value = document.getElementById("meetingId").value;
-            await sdkJoin(value);
+            await sdkJoin(value, true);
           }}
         >
-          Join with phrase
+          JoinPrecall with phrase
         </button>
         <button
           onClick={async () => {
             const value = document.getElementById("meetingId").value;
             const meetingData = await fetchMeetingData(value);
-            await sdkJoin(meetingData);
+            await sdkJoin(meetingData, true);
           }}
         >
-          Join With data
+          JoinPrecall With data
+        </button>
+        <button
+          onClick={async () => {
+            const value = document.getElementById("meetingId").value;
+            await sdkJoin(value, false);
+          }}
+        >
+          JoinRoom with phrase
+        </button>
+        <button
+          onClick={async () => {
+            const value = document.getElementById("meetingId").value;
+            const meetingData = await fetchMeetingData(value);
+            await sdkJoin(meetingData, false);
+          }}
+        >
+          JoinRoom With data
         </button>
         <button
           onClick={() => {
@@ -236,14 +249,20 @@ function App() {
           Join With garbage data
         </button>
         <button
-          disabled={!inPrecall}
           onClick={() => {
             joinRoomRef.current();
           }}
         >
-          Join Room from Precall {!inPrecall && "NA"}
+          Join Room from Precall
         </button>
         <button onClick={unsubscribe}>Unsubscribe</button>
+        <button
+          onClick={() => {
+            AppBuilderReactSdk.customEvents.send("MyEvent", "hi", 1);
+          }}
+        >
+          Test custom events
+        </button>
       </div>
       <div style={{ display: "flex", flex: 1, maxHeight: "100vh" }}>
         <AppBuilderReactSdk.View />
