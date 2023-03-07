@@ -10,7 +10,6 @@ function log(...args) {
 
 function App() {
   const eventUnsubscriptionEvents = useRef([]);
-  const [inPrecall, setInPrecall] = useState(false);
   const joinRoomRef = useRef(() => {});
 
   const fetchMeetingData = async (meetingId) => {
@@ -75,7 +74,6 @@ function App() {
   const sdkJoin = async (meetingInfo, precallEnabled) => {
     let recievedMeetingData;
     let concurrencyTest = false;
-    setInPrecall(false);
     log("Attempting Join with ", meetingInfo);
     try {
       if (precallEnabled) {
@@ -88,7 +86,6 @@ function App() {
         log("Pre successful with ", recievedMeetingData);
         recievedMeetingData = stuff[0];
         joinRoomRef.current = stuff[1];
-        setInPrecall(true);
       } else {
         concurrencyTest &&
           (recievedMeetingData = await AppBuilderReactSdk.joinRoom(
@@ -96,7 +93,6 @@ function App() {
           ));
         log("Join successful with ", recievedMeetingData);
         recievedMeetingData = await AppBuilderReactSdk.joinRoom(meetingInfo);
-        setInPrecall(false);
       }
     } catch (error) {
       log("Join failed with", error);
