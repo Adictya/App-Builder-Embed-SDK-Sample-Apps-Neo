@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./app.css";
 import AppBuilderReactSdk from "@appbuilder/react";
+import DeviceSelection from "./DeviceSelection";
+
+
 
 // AppBuilderReactSdk.join("7c448c17-d515-4dfa-ba7a-10bac8d4c71d");
 
@@ -155,7 +158,12 @@ function App() {
     // 'rtc-user-left': (uid: UidType) => void;
 
     const rtcEvents = [
+      AppBuilderReactSdk.on("_rtm-joined", (...params) => {
+        AppBuilderReactSdk.customEvents.send("MyEvent", "onRtmJoin", 1);
+        log("RTM USER JOINED", params);
+      }),
       AppBuilderReactSdk.on("rtc-user-joined", (...params) => {
+        AppBuilderReactSdk.customEvents.send("MyEvent", "onJoin", 1);
         log("RTC USER JOINED", params);
       }),
       AppBuilderReactSdk.on("rtc-user-left", (...params) => {
@@ -176,9 +184,12 @@ function App() {
       unsubLeaveEvent,
       ...rtcEvents,
     ];
-    AppBuilderReactSdk.customEvents.on("MyEvent", () => {
-      console.log("got my event");
+
+    AppBuilderReactSdk.customEvents.on("MyEvent", (p) => {
+      console.log("got my event", p);
     });
+
+    AppBuilderReactSdk.customEvents.send("MyEvent", "onMount", 1);
 
     return () => {
       unsubCreateEvent();
@@ -260,8 +271,13 @@ function App() {
           Test custom events
         </button>
       </div>
-      <div style={{ display: "flex", flex: 1, maxHeight: "100vh" }}>
-        <AppBuilderReactSdk.View />
+      <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", flex: 1, maxHeight: "100vh" }}>
+          <AppBuilderReactSdk.View />
+        </div>
+        <div style={{ width: "20vw" }}>
+          <DeviceSelection />
+        </div>
       </div>
     </div>
   );
