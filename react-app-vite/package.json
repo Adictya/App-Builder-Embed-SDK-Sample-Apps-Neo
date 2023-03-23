@@ -10,8 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.8",
-    "@appbuilder/react": "file:../../../../../../../home/adictya/dev/agora/projects/app-builder-core/Builds/react-sdk/appbuilder-react-4.0.0-beta.11-zRYxy4uYHz.tgz",
-    "@appbuilder/web": "file:../../app-builder-core/Builds/web-sdk/appbuilder-web-4.0.0-58p0T3RjWA.tgz",
+    "@appbuilder/react": "file:../../app-builder-core/Builds/react-sdk/appbuilder-react-4.0.0-spl.3-GEdYxrPrvF.tgz",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",

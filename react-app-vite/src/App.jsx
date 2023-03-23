@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./app.css";
+import "./App.css";
 import AppBuilderReactSdk from "@appbuilder/react";
 import DeviceSelection from "./DeviceSelection";
 
