@@ -101,42 +101,42 @@ const DeviceSelection = () => {
           AppBuilderReactSdk.muteVideo((p) => !p);
         }}
       >
-        toggle video
+        Toggle Video
       </button>
       <button
         onClick={() => {
           AppBuilderReactSdk.muteVideo(true);
         }}
       >
-        mute video
+        Mute Video
       </button>
       <button
         onClick={() => {
           AppBuilderReactSdk.muteVideo(false);
         }}
       >
-        Unmute video
+        Unmute Video
       </button>
       <button
         onClick={() => {
           AppBuilderReactSdk.muteAudio((p) => !p);
         }}
       >
-        toggle audio
+        Toggle Audio
       </button>
       <button
         onClick={() => {
           AppBuilderReactSdk.muteAudio(true);
         }}
       >
-        Mute audio
+        Mute Audio
       </button>
       <button
         onClick={() => {
           AppBuilderReactSdk.muteAudio(false);
         }}
       >
-        Unmute audio
+        Unmute Audio
       </button>
     </Panel>
   );
