@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@appbuilder/web": "file:../../app-builder-core/Builds/web-sdk/appbuilder-web-4.0.0-spl.3-L827Hj1Shv.tgz",
+    "@appbuilder/web": "file:../../app-builder-core/Builds/web-sdk/appbuilder-web-4.0.0-spl.4-TXagB7JRGU.tgz",
     "core-js": "^3.8.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",

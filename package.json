@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@appbuilder/react": "file:../app-builder-core/Builds/react-sdk/appbuilder-react-4.0.0-spl.4-zggztymTEW.tgz",
     "lodash": "^4.17.21"
   }
 }

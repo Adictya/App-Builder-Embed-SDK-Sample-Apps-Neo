@@ -19,7 +19,7 @@ console.log("==========  REACT_SDK   =========");
 console.log("=================================");
 
 console.log("building react sdk ");
-child.execSync("npm run react-sdk", {
+child.execSync("npm run react-sdk:build", {
   cwd: path.join(AB_DIRECTORY, "template"),
 });
 

@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import AppBuilderReactSdk from "@appbuilder/react";
+import JoinPanel from "./JoinPanel";
+import Panel from "./Panel";
 
 const DeviceSelection = () => {
   const [devices, setDevices] = useState([]);
@@ -46,13 +48,11 @@ const DeviceSelection = () => {
   }, []);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <Panel title="Devices">
       <span>
-        {
-          videoDevices.find((d) => {
-            return d.deviceId === selectedCam;
-          })?.label
-        }
+        {videoDevices.find((d) => {
+          return d.deviceId === selectedCam;
+        })?.label ?? "Cam Not initialized"}
       </span>
       <select
         onChange={(e) => {
@@ -64,11 +64,9 @@ const DeviceSelection = () => {
         })}
       </select>
       <span>
-        {
-          audioDevices.find((d) => {
-            return d.deviceId === selectedMic;
-          })?.label
-        }
+        {audioDevices.find((d) => {
+          return d.deviceId === selectedMic;
+        })?.label ?? "Mic Not initialized"}
       </span>
       <select
         onChange={(e) => {
@@ -83,11 +81,9 @@ const DeviceSelection = () => {
         })}
       </select>
       <span>
-        {
-          speakerDevices.find((d) => {
-            return d.deviceId === selectedSpeaker;
-          })?.label
-        }
+        {speakerDevices.find((d) => {
+          return d.deviceId === selectedSpeaker;
+        })?.label ?? "Speaker not initialized"}
       </span>
       <select
         onChange={(e) => {
@@ -100,7 +96,49 @@ const DeviceSelection = () => {
           return <option value={i}>{e.label}</option>;
         })}
       </select>
-    </div>
+      <button
+        onClick={() => {
+          AppBuilderReactSdk.muteVideo((p) => !p);
+        }}
+      >
+        toggle video
+      </button>
+      <button
+        onClick={() => {
+          AppBuilderReactSdk.muteVideo(true);
+        }}
+      >
+        mute video
+      </button>
+      <button
+        onClick={() => {
+          AppBuilderReactSdk.muteVideo(false);
+        }}
+      >
+        Unmute video
+      </button>
+      <button
+        onClick={() => {
+          AppBuilderReactSdk.muteAudio((p) => !p);
+        }}
+      >
+        toggle audio
+      </button>
+      <button
+        onClick={() => {
+          AppBuilderReactSdk.muteAudio(true);
+        }}
+      >
+        Mute audio
+      </button>
+      <button
+        onClick={() => {
+          AppBuilderReactSdk.muteAudio(false);
+        }}
+      >
+        Unmute audio
+      </button>
+    </Panel>
   );
 };
 

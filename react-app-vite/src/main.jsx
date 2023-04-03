@@ -8,7 +8,6 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <>
-        <Link to="/test">Go to next page</Link>
         <App />
       </>
     ),
