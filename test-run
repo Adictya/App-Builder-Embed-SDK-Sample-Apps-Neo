@@ -19,7 +19,7 @@ console.log("==========  REACT_SDK   =========");
 console.log("=================================");
 
 console.log("building react sdk ");
-child.execSync("npm run react-sdk:build", {
+child.execSync("npm run react-sdk", {
   cwd: path.join(AB_DIRECTORY, "template"),
 });
 
@@ -99,7 +99,12 @@ console.log(
 );
 
 child.execSync(
-  `npm install ${path.join(AB_DIRECTORY, "Builds", "web-sdk", files_web_sdk[0])}`,
+  `npm install ${path.join(
+    AB_DIRECTORY,
+    "Builds",
+    "web-sdk",
+    files_web_sdk[0]
+  )}`,
   {
     cwd: path.join(__dirname, "vue-app"),
   }

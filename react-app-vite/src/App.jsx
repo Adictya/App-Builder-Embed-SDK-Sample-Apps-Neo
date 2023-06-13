@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import "./app.css";
-import AppBuilderReactSdk from "@appbuilder/react";
+import AppBuilderReactSdk, {
+  UiKitMaxVideoView,
+  useLocalUserInfo,
+  MaxVideoView,
+} from "@appbuilder/react";
 import ConfigPanels from "./Components/ConfigPanels";
 import { Link } from "react-router-dom6";
 
@@ -8,17 +12,30 @@ export function Log(...args) {
   console.log("[React HOST App]: ", ...args);
 }
 
+const VideoView = () => {
+  const localUserInfo = useLocalUserInfo();
+  return (
+    <UiKitMaxVideoView containerStyle={{ flex: 1 }} user={localUserInfo} />
+  );
+};
+
 function App() {
   useEffect(() => {
     const myCustomization = AppBuilderReactSdk.createCustomization({
-      // components: {
-      //   // appRoot: () => <div>hi</div>,
-      //   videoCall: () => <div>Hi</div>,
-      //   bottomBar: () => <div>Hi</div>,
-      //   bottombar: () => <div>Hi</div>,
-      //   chat: () => <div>Hi</div>,
-      //   topBar: () => <div>Hi</div>,
-      // },
+      components: {
+        precall: VideoView,
+        videoCall: VideoView,
+        // precall: () => {
+        //   const local = useLocalUserInfo();
+        //   return <MaxVideoView user={local} />;
+        // },
+        // appRoot: () => <div>hi</div>,
+        //   videoCall: () => <div>Hi</div>,
+        //   bottomBar: () => <div>Hi</div>,
+        //   bottombar: () => <div>Hi</div>,
+        //   chat: () => <div>Hi</div>,
+        //   topBar: () => <div>Hi</div>,
+      },
     });
 
     AppBuilderReactSdk.customize(myCustomization);
@@ -32,13 +49,32 @@ function App() {
           Go to next page
         </Link>
       </div>
-      <div style={{ display: "flex", flex: 1, height: "600px" }}>
-        <div style={{ display: "flex", flex: 1, maxHeight: "100vh" }}>
-          <AppBuilderReactSdk.View />
+      <div
+        style={{ position: "relative", display: "flex", aspectRatio: "16/9" }}
+      >
+        <video
+          style={{ width: "100%", height: "100%" }}
+          src="ElephantsDeams.mp4"
+        />
+        {/* <div style={{ display: "flex", flex: 1 }}> */}
+        {/*   <AppBuilderReactSdk.View /> */}
+        {/* </div> */}
+        <div
+          style={{
+            position: "absolute",
+            right: 0,
+            top: "50%",
+            bottom: "50%",
+            backgroundColor: "red",
+            height: "25px",
+            transform: "translate( -50% , -50%)",
+          }}
+        >
+          Overlay
         </div>
-        <div style={{ width: "20vw" }}>
-          <ConfigPanels />
-        </div>
+        {/* <div style={{ width: "20vw" }}> */}
+        {/*   <ConfigPanels /> */}
+        {/* </div> */}
       </div>
     </div>
   );

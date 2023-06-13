@@ -5,6 +5,7 @@ import AppBuilderReactSdk from "@appbuilder/react";
 
 const JoinPanel = () => {
   const joinRoomRef = useRef(() => {});
+  const joinDataRef = useRef(null);
 
   const fetchMeetingData = async (meetingId) => {
     const response = await fetch(
@@ -32,7 +33,6 @@ const JoinPanel = () => {
     );
     let data = await response.json();
     data = data.data;
-    Log("Got this", data);
     let meetingInfo = {};
 
     if (data?.joinChannel?.channel) {
@@ -63,6 +63,7 @@ const JoinPanel = () => {
       meetingInfo.meetingTitle = data.joinChannel.title;
     }
 
+    Log("Got this", meetingInfo);
     return meetingInfo;
   };
 
@@ -110,7 +111,9 @@ const JoinPanel = () => {
         onClick={async () => {
           const value = document.getElementById("meetingId").value;
           const meetingData = await fetchMeetingData(value);
+          joinDataRef.current = meetingData;
           await sdkJoin(meetingData, true);
+          console.log("[!!!]: Precall join successful");
         }}
       >
         JoinPrecall With data
@@ -126,7 +129,8 @@ const JoinPanel = () => {
       <button
         onClick={async () => {
           const value = document.getElementById("meetingId").value;
-          const meetingData = await fetchMeetingData(value);
+          const meetingData =
+            joinDataRef.current || (await fetchMeetingData(value));
           await sdkJoin(meetingData, false);
         }}
       >
