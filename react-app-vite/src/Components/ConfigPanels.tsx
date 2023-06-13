@@ -3,6 +3,7 @@ import CustomEventsPanel from "./CustomEvents";
 import DeviceSelection from "./DeviceSelection";
 import Events from "./Events";
 import JoinPanel from "./JoinPanel";
+import LoginPanel from "./LoginPanel";
 
 export default function ConfigPanels() {
   return (
@@ -18,6 +19,7 @@ export default function ConfigPanels() {
       }}
     >
       <span style={{ textAlign: "center" }}>Scroll for more</span>
+      <LoginPanel />
       <JoinPanel />
       <DeviceSelection />
       <Events />

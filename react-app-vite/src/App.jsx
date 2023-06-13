@@ -23,8 +23,8 @@ function App() {
   useEffect(() => {
     const myCustomization = AppBuilderReactSdk.createCustomization({
       components: {
-        precall: VideoView,
-        videoCall: VideoView,
+        // precall: VideoView,
+        // videoCall: VideoView,
         // precall: () => {
         //   const local = useLocalUserInfo();
         //   return <MaxVideoView user={local} />;
