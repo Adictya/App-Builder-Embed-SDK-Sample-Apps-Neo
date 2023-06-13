@@ -52,29 +52,12 @@ function App() {
       <div
         style={{ position: "relative", display: "flex", aspectRatio: "16/9" }}
       >
-        <video
-          style={{ width: "100%", height: "100%" }}
-          src="ElephantsDeams.mp4"
-        />
-        {/* <div style={{ display: "flex", flex: 1 }}> */}
-        {/*   <AppBuilderReactSdk.View /> */}
-        {/* </div> */}
-        <div
-          style={{
-            position: "absolute",
-            right: 0,
-            top: "50%",
-            bottom: "50%",
-            backgroundColor: "red",
-            height: "25px",
-            transform: "translate( -50% , -50%)",
-          }}
-        >
-          Overlay
+        <div style={{ display: "flex", flex: 1 }}>
+          <AppBuilderReactSdk.View />
         </div>
-        {/* <div style={{ width: "20vw" }}> */}
-        {/*   <ConfigPanels /> */}
-        {/* </div> */}
+        <div style={{ width: "20vw" }}>
+          <ConfigPanels />
+        </div>
       </div>
     </div>
   );
