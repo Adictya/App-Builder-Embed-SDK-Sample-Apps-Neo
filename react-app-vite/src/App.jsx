@@ -50,7 +50,7 @@ function App() {
         </Link>
       </div>
       <div
-        style={{ position: "relative", display: "flex", aspectRatio: "16/9" }}
+        style={{ position: "relative", display: "flex", maxHeight:'calc( 100vh - 3rem )'}}
       >
         <div style={{ display: "flex", flex: 1 }}>
           <AppBuilderReactSdk.View />
