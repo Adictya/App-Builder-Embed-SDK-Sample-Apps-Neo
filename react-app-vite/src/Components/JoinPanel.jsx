@@ -67,7 +67,7 @@ const JoinPanel = () => {
     return meetingInfo;
   };
 
-  const sdkJoin = async (meetingInfo, precallEnabled) => {
+  const sdkJoin = async (meetingInfo, precallEnabled, userName) => {
     let recievedMeetingData;
     let concurrencyTest = false;
     Log("Attempting Join with ", meetingInfo);
@@ -76,19 +76,24 @@ const JoinPanel = () => {
         let stuff;
         concurrencyTest &&
           (stuff = await AppBuilderReactSdk.joinPrecall(
-            "6359c478-9169-4942-9292-54cd44ea3f2c"
+            "6359c478-9169-4942-9292-54cd44ea3f2c",
+            userName
           ));
-        stuff = await AppBuilderReactSdk.joinPrecall(meetingInfo);
+        stuff = await AppBuilderReactSdk.joinPrecall(meetingInfo, userName);
         Log("Pre successful with ", recievedMeetingData);
         recievedMeetingData = stuff[0];
         joinRoomRef.current = stuff[1];
       } else {
         concurrencyTest &&
           (recievedMeetingData = await AppBuilderReactSdk.joinRoom(
-            "6359c478-9169-4942-9292-54cd44ea3f2c"
+            "6359c478-9169-4942-9292-54cd44ea3f2c",
+            userName
           ));
         Log("Join successful with ", recievedMeetingData);
-        recievedMeetingData = await AppBuilderReactSdk.joinRoom(meetingInfo);
+        recievedMeetingData = await AppBuilderReactSdk.joinRoom(
+          meetingInfo,
+          userName
+        );
       }
     } catch (error) {
       Log("Join failed with", error);
@@ -99,20 +104,24 @@ const JoinPanel = () => {
   return (
     <Panel title="Join Methods">
       <input id="meetingId" type="text" placeholder="Room id"></input>
+      <input id="username" type="text" placeholder="UserName"></input>
       <button
         onClick={async () => {
           const value = document.getElementById("meetingId").value;
-          await sdkJoin(value, true);
+          const userName = document.getElementById("username").value;
+          await sdkJoin(value, true, userName);
         }}
       >
         JoinPrecall with phrase
       </button>
       <button
+        disabled={true}
         onClick={async () => {
           const value = document.getElementById("meetingId").value;
+          const userName = document.getElementById("username").value;
           const meetingData = await fetchMeetingData(value);
           joinDataRef.current = meetingData;
-          await sdkJoin(meetingData, true);
+          await sdkJoin(meetingData, true, userName);
           console.log("[!!!]: Precall join successful");
         }}
       >
@@ -121,31 +130,37 @@ const JoinPanel = () => {
       <button
         onClick={async () => {
           const value = document.getElementById("meetingId").value;
-          await sdkJoin(value, false);
+          const userName = document.getElementById("username").value;
+          await sdkJoin(value, false, userName);
         }}
       >
         JoinRoom with phrase
       </button>
       <button
+        disabled={true}
         onClick={async () => {
           const value = document.getElementById("meetingId").value;
+          const userName = document.getElementById("username").value;
           const meetingData =
             joinDataRef.current || (await fetchMeetingData(value));
-          await sdkJoin(meetingData, false);
+          await sdkJoin(meetingData, false, userName);
         }}
       >
         JoinRoom With data
       </button>
       <button
+        disabled={true}
         onClick={() => {
-          sdkJoin({ garbage: "data" }, false);
+          const userName = document.getElementById("username").value;
+          sdkJoin({ garbage: "data" }, false, userName);
         }}
       >
         Join With garbage data
       </button>
       <button
         onClick={() => {
-          joinRoomRef.current();
+          const userName = document.getElementById("username").value;
+          joinRoomRef.current(userName);
         }}
       >
         Join Room from Precall

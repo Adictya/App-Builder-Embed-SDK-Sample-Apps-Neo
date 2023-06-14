@@ -17,7 +17,7 @@
   display: inline-flex;
   align-items: center;
   background-color: #222222;
-  color: #3EB27E;
+  color: #3eb27e;
   font-family: sans-serif;
   margin-right: 20px;
 }
@@ -64,7 +64,19 @@ button {
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
- button:hover {
+button:disabled {
+  opacity: 0.2;
+  cursor: unset;
+  transition: none;
+}
+
+button:disabled:hover {
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+button:hover {
   color: #fff;
   background-color: #0b5ed7;
   border-color: #0a58ca;
