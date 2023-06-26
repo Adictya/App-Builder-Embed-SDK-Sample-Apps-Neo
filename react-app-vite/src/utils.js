@@ -12,3 +12,20 @@ export const refreshToken = async (apiKey, env) => {
 
   return data.token;
 };
+
+export const getABParams = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const join = urlParams.get("join");
+  const id = urlParams.get("id");
+  const uname = urlParams.get("uname");
+  const env = urlParams.get("env");
+  const apiKey = urlParams.get("apiKey");
+
+  return {
+    join,
+    id,
+    uname,
+    env,
+    apiKey,
+  };
+};

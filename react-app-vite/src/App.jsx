@@ -7,7 +7,7 @@ import AppBuilderReactSdk, {
 } from "@appbuilder/react";
 import ConfigPanels from "./Components/ConfigPanels";
 import { Link, useNavigate } from "react-router-dom6";
-import { refreshToken } from "./utils";
+import { refreshToken, getABParams } from "./utils";
 
 export function Log(...args) {
   console.log("[React HOST App]: ", ...args);
@@ -25,13 +25,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const join = urlParams.get("join");
-    const id = urlParams.get("id");
-    const uname = urlParams.get("uname");
-    const env = urlParams.get("env");
-    const apiKey = urlParams.get("apiKey");
-
+    const { join, id, uname, env, apiKey } = getABParams();
     (async () => {
       if (id) {
         if (apiKey) {

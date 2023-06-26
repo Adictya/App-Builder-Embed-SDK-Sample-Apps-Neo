@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import AppBuilderReactSdk from "@appbuilder/react";
 import JoinPanel from "./JoinPanel";
 import Panel from "./Panel";
+import { Log } from "../App";
 
 const DeviceSelection = () => {
   const [devices, setDevices] = useState([]);
@@ -105,38 +106,10 @@ const DeviceSelection = () => {
       </button>
       <button
         onClick={() => {
-          AppBuilderReactSdk.muteVideo(true);
-        }}
-      >
-        Mute Video
-      </button>
-      <button
-        onClick={() => {
-          AppBuilderReactSdk.muteVideo(false);
-        }}
-      >
-        Unmute Video
-      </button>
-      <button
-        onClick={() => {
           AppBuilderReactSdk.muteAudio((p) => !p);
         }}
       >
         Toggle Audio
-      </button>
-      <button
-        onClick={() => {
-          AppBuilderReactSdk.muteAudio(true);
-        }}
-      >
-        Mute Audio
-      </button>
-      <button
-        onClick={() => {
-          AppBuilderReactSdk.muteAudio(false);
-        }}
-      >
-        Unmute Audio
       </button>
     </Panel>
   );

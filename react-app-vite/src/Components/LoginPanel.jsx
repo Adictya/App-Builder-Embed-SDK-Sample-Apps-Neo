@@ -1,13 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Log } from "../App";
 import Panel from "./Panel";
 import AppBuilderReactSdk from "@appbuilder/react";
-import { refreshToken } from "../utils";
+import { getABParams, refreshToken } from "../utils";
 
 const LoginPanel = () => {
+  useEffect(() => {
+    const { apiKey, env } = getABParams();
+    document.getElementById("apiKey").value = apiKey;
+    document.getElementById("env").value = env;
+  }, []);
   return (
     <Panel title="Auth Methods">
-      <input id="apiKey-Auth" type="text" placeholder="Api-Key"></input>
+      <input id="apiKey" type="text" placeholder="Api-Key"></input>
       <input
         id="env"
         type="text"

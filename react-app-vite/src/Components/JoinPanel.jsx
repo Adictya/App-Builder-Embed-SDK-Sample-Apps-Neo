@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Log } from "../App";
 import Panel from "./Panel";
 import AppBuilderReactSdk from "@appbuilder/react";
+import { getABParams } from "../utils";
 
 const JoinPanel = () => {
   const joinRoomRef = useRef(() => {});
@@ -100,6 +101,12 @@ const JoinPanel = () => {
     }
     return recievedMeetingData;
   };
+
+  useEffect(() => {
+    const { id, uname } = getABParams();
+    document.getElementById("meetingId").value = id;
+    document.getElementById("username").value = uname;
+  }, []);
 
   return (
     <Panel title="Join Methods">
