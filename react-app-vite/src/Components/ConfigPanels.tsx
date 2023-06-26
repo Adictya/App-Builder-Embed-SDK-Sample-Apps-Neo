@@ -4,6 +4,7 @@ import DeviceSelection from "./DeviceSelection";
 import Events from "./Events";
 import JoinPanel from "./JoinPanel";
 import LoginPanel from "./LoginPanel";
+import JoinOnMount from "./JoinOnMount";
 
 export default function ConfigPanels() {
   return (

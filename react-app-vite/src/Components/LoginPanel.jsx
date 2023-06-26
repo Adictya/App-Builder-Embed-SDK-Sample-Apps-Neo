@@ -2,20 +2,36 @@ import React, { useRef, useState } from "react";
 import { Log } from "../App";
 import Panel from "./Panel";
 import AppBuilderReactSdk from "@appbuilder/react";
+import { refreshToken } from "../utils";
 
 const LoginPanel = () => {
-  const isLoggedIn = useState(false);
-
   return (
     <Panel title="Auth Methods">
+      <input id="apiKey-Auth" type="text" placeholder="Api-Key"></input>
+      <input
+        id="env"
+        type="text"
+        placeholder="Env (ex: staging(default), prod, preprod)"
+      ></input>
+      <button
+        onClick={async () => {
+          const apiKey = document.getElementById("apiKey").value;
+          const env = document.getElementById("env").value;
+          const value = await refreshToken(apiKey, env);
+          document.getElementById("tokenInput").value = value;
+        }}
+      >
+        Fetch Token
+      </button>
+      <span style={{ textAlign: "center" }}>-- or/and --</span>
       <textarea id="tokenInput" placeholder="Token"></textarea>
       <button
         onClick={async () => {
-          const value = document.getElementById("tokenInput").value;
+          let value = document.getElementById("tokenInput").value;
           AppBuilderReactSdk.login(value);
         }}
       >
-        Login with token
+        Login
       </button>
       <button
         onClick={async () => {

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Log } from "../App";
 import Panel from "./Panel";
 import AppBuilderReactSdk from "@appbuilder/react";
@@ -164,6 +164,28 @@ const JoinPanel = () => {
         }}
       >
         Join Room from Precall
+      </button>
+      <button
+        onClick={async () => {
+          const value = document.getElementById("meetingId").value;
+          const userName = document.getElementById("username").value;
+          const url = `?join=true&id=${value}&uname=${userName}`;
+          window.location = url;
+        }}
+      >
+        Join on mount
+      </button>
+      <button
+        onClick={async () => {
+          const value = document.getElementById("meetingId").value;
+          const userName = document.getElementById("username").value;
+          const apiKey = document.getElementById("api-key").value;
+          const env = document.getElementById("env").value;
+          const url = `?join=false&id=${value}&uname=${userName}&env=${env}&apiKey=${apiKey}`;
+          window.location = url;
+        }}
+      >
+        Join Precall on mount
       </button>
     </Panel>
   );

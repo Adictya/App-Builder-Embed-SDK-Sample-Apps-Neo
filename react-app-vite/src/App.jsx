@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./app.css";
 import AppBuilderReactSdk, {
   UiKitMaxVideoView,
@@ -6,7 +6,8 @@ import AppBuilderReactSdk, {
   MaxVideoView,
 } from "@appbuilder/react";
 import ConfigPanels from "./Components/ConfigPanels";
-import { Link } from "react-router-dom6";
+import { Link, useNavigate } from "react-router-dom6";
+import { refreshToken } from "./utils";
 
 export function Log(...args) {
   console.log("[React HOST App]: ", ...args);
@@ -20,6 +21,37 @@ const VideoView = () => {
 };
 
 function App() {
+  const [mount, setMount] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const join = urlParams.get("join");
+    const id = urlParams.get("id");
+    const uname = urlParams.get("uname");
+    const env = urlParams.get("env");
+    const apiKey = urlParams.get("apiKey");
+
+    (async () => {
+      if (id) {
+        if (apiKey) {
+          const token = await refreshToken(apiKey, env);
+          await AppBuilderReactSdk.login(token);
+        }
+        if (join === "true") {
+          AppBuilderReactSdk.joinRoom(id, uname);
+        } else {
+          AppBuilderReactSdk.joinPrecall(id, uname);
+        }
+      }
+      setMount(true);
+    })();
+
+    AppBuilderReactSdk.on("leave", () => {
+      navigate("/");
+    });
+  }, []);
+
   useEffect(() => {
     const myCustomization = AppBuilderReactSdk.createCustomization({
       components: {
@@ -38,7 +70,11 @@ function App() {
       },
     });
 
-    AppBuilderReactSdk.customize(myCustomization);
+    try {
+      AppBuilderReactSdk.customize(myCustomization);
+    } catch (e) {
+      Log("Error customizing", e.message);
+    }
   }, []);
 
   return (
@@ -50,10 +86,14 @@ function App() {
         </Link>
       </div>
       <div
-        style={{ position: "relative", display: "flex", maxHeight:'calc( 100vh - 3rem )'}}
+        style={{
+          position: "relative",
+          display: "flex",
+          maxHeight: "calc( 100vh - 3rem )",
+        }}
       >
         <div style={{ display: "flex", flex: 1 }}>
-          <AppBuilderReactSdk.View />
+          {mount ? <AppBuilderReactSdk.View /> : <div>Loading</div>}
         </div>
         <div style={{ width: "20vw" }}>
           <ConfigPanels />
