@@ -176,7 +176,9 @@ const JoinPanel = () => {
         onClick={async () => {
           const value = document.getElementById("meetingId").value;
           const userName = document.getElementById("username").value;
-          const url = `?join=true&id=${value}&uname=${userName}`;
+          const apiKey = document.getElementById("apiKey").value;
+          const env = document.getElementById("env").value;
+          const url = `?join=true&id=${value}&uname=${userName}&env=${env}&apiKey=${apiKey}`;
           window.location = url;
         }}
       >

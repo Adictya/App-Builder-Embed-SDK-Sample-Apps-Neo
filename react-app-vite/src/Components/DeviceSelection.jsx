@@ -20,11 +20,13 @@ const DeviceSelection = () => {
   const [selectedSpeaker, setSelectedSpeaker] = useState("0");
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(() => {
-      navigator.mediaDevices.enumerateDevices().then((devices) => {
-        setDevices(devices);
+    navigator.mediaDevices
+      .getUserMedia({ audio: true, video: true })
+      .then(() => {
+        navigator.mediaDevices.enumerateDevices().then((devices) => {
+          setDevices(devices);
+        });
       });
-    });
     const unsub = [
       AppBuilderReactSdk.on("devices-selected-camera-changed", (deviceId) => {
         console.log("SDKEVENT: cam changed", deviceId);
