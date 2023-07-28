@@ -10,7 +10,8 @@ const JoinPanel = () => {
 
   const fetchMeetingData = async (meetingId) => {
     const response = await fetch(
-      "https://managedservices-staging.rteappbuilder.com/query",
+      "https://cryptic-dawn-34132.herokuapp.com/query",
+      // "https://managedservices-staging.rteappbuilder.com/query",
       {
         headers: {
           accept: "*/*",
