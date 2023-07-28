@@ -5,6 +5,7 @@ import AppBuilderReactSdk from "@appbuilder/react";
 import { getABParams, refreshToken } from "../utils";
 
 const LoginPanel = () => {
+  const disabled = true
   useEffect(() => {
     const { apiKey, env } = getABParams();
     document.getElementById("apiKey").value = apiKey;
@@ -12,13 +13,20 @@ const LoginPanel = () => {
   }, []);
   return (
     <Panel title="Auth Methods">
-      <input id="apiKey" type="text" placeholder="Api-Key"></input>
       <input
+        disabled={disabled}
+        id="apiKey"
+        type="text"
+        placeholder="Api-Key"
+      ></input>
+      <input
+        disabled={disabled}
         id="env"
         type="text"
         placeholder="Env (ex: staging(default), prod, preprod)"
       ></input>
       <button
+        disabled={disabled}
         onClick={async () => {
           const apiKey = document.getElementById("apiKey").value;
           const env = document.getElementById("env").value;
@@ -31,6 +39,7 @@ const LoginPanel = () => {
       <span style={{ textAlign: "center" }}>-- or/and --</span>
       <textarea id="tokenInput" placeholder="Token"></textarea>
       <button
+        disabled={disabled}
         onClick={async () => {
           let value = document.getElementById("tokenInput").value;
           AppBuilderReactSdk.login(value);
@@ -39,6 +48,7 @@ const LoginPanel = () => {
         Login
       </button>
       <button
+        disabled={disabled}
         onClick={async () => {
           AppBuilderReactSdk.logout();
         }}
