@@ -44,7 +44,7 @@ export default function Events() {
 
     const rtcEvents = [
       AppBuilderReactSdk.on("_rtm-joined", (...params) => {
-        Log("RTM USER JOINED", params);
+        Log("RTM USER JOINED 1", params);
       }),
       AppBuilderReactSdk.on("rtc-user-joined", (...params) => {
         Log("RTC USER JOINED", params);
