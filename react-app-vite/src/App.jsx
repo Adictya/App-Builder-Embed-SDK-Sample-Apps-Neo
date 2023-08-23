@@ -27,6 +27,7 @@ function App() {
   useEffect(() => {
     const { join, id, uname, env, apiKey } = getABParams();
     (async () => {
+      setMount(true);
       if (id) {
         if (apiKey) {
           const token = await refreshToken(apiKey, env);
@@ -38,7 +39,6 @@ function App() {
           AppBuilderReactSdk.joinPrecall(id, uname);
         }
       }
-      setMount(true);
     })();
 
     AppBuilderReactSdk.on("leave", () => {
