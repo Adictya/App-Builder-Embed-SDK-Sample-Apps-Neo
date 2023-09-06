@@ -112,6 +112,7 @@ const JoinPanel = () => {
   return (
     <Panel title="Join Methods">
       <input id="meetingId" type="text" placeholder="Room id"></input>
+      <input id="meetingId2" type="text" placeholder="Second Room id"></input>
       <input id="username" type="text" placeholder="UserName"></input>
       <button
         onClick={async () => {
@@ -134,6 +135,17 @@ const JoinPanel = () => {
         }}
       >
         JoinPrecall With data
+      </button>
+      <button
+        onClick={async () => {
+          const value = document.getElementById("meetingId").value;
+          const value2 = document.getElementById("meetingId2").value;
+          const userName = document.getElementById("username").value;
+          await sdkJoin(value, false, userName);
+          await sdkJoin(value2, false, userName);
+        }}
+      >
+        JoinRoom concurrently with phrase
       </button>
       <button
         onClick={async () => {
