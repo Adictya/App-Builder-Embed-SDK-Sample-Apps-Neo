@@ -1,0 +1,15 @@
+#!/bin/bash
+
+ABP=$1
+
+pwd=$(pwd)
+
+cd $ABP
+
+npm run start -- build react-sdk
+
+cd $pwd/react-app-vite
+
+npm install $ABP/Builds/react-sdk/*.tgz --force
+
+npm run dev
