@@ -6,6 +6,10 @@ const path = require("path");
 
 const AB_DIRECTORY = process.argv[2];
 
+const ProdFlag = process.argv.includes("--prod");
+
+const WsdkFlag = process.argv.includes("--wsdk");
+
 if (!AB_DIRECTORY) {
   console.log("no argument provided");
   console.log("call with app builder project directory");
@@ -18,8 +22,8 @@ console.log("=================================");
 console.log("==========  REACT_SDK   =========");
 console.log("=================================");
 
-console.log("building react sdk ");
-child.execSync("npm run react-sdk", {
+console.log("building react sdk ", ProdFlag ? "prod" : "dev");
+child.execSync(`npm run react-sdk${ProdFlag ? ":build" : ""}`, {
   cwd: path.join(AB_DIRECTORY, "template"),
 });
 
@@ -72,56 +76,58 @@ reactServer.on("error", (data) => {
   console.log(data);
 });
 
-console.log("=================================");
-console.log("==========  WEB_SDK   =========");
-console.log("=================================");
+if (WsdkFlag) {
+  console.log("=================================");
+  console.log("==========  WEB_SDK   =========");
+  console.log("=================================");
 
-console.log("building web sdk ");
-child.execSync("npm run web-sdk", {
-  cwd: path.join(AB_DIRECTORY, "template"),
-});
+  console.log("building web sdk ");
+  child.execSync("npm run web-sdk", {
+    cwd: path.join(AB_DIRECTORY, "template"),
+  });
 
-console.log("looking for tgz file");
-const files_web_sdk = fs
-  .readdirSync(path.join(AB_DIRECTORY, "Builds", "web-sdk"))
-  .filter((fn) => fn.endsWith(".tgz"));
+  console.log("looking for tgz file");
+  const files_web_sdk = fs
+    .readdirSync(path.join(AB_DIRECTORY, "Builds", "web-sdk"))
+    .filter((fn) => fn.endsWith(".tgz"));
 
-if (files_web_sdk.length < 1) {
-  console.log("build failed no tgz file found");
-  process.exit();
-}
-
-console.log("found tgz file", files_web_sdk[0]);
-
-console.log(
-  "installing tgz file",
-  path.join(AB_DIRECTORY, "Builds", "web-sdk", files_web_sdk[0])
-);
-
-child.execSync(
-  `npm install ${path.join(
-    AB_DIRECTORY,
-    "Builds",
-    "web-sdk",
-    files_web_sdk[0]
-  )}`,
-  {
-    cwd: path.join(__dirname, "vue-app"),
+  if (files_web_sdk.length < 1) {
+    console.log("build failed no tgz file found");
+    process.exit();
   }
-);
 
-console.log("starting vite-sample-app server at http://localhost:8080");
+  console.log("found tgz file", files_web_sdk[0]);
 
-const viteServer = child.exec(`npm run serve`, {
-  cwd: path.join(__dirname, "vue-app"),
-});
+  console.log(
+    "installing tgz file",
+    path.join(AB_DIRECTORY, "Builds", "web-sdk", files_web_sdk[0])
+  );
 
-viteServer.on("message", (data) => {
-  console.log("viteServer");
-  console.log(data);
-});
+  child.execSync(
+    `npm install ${path.join(
+      AB_DIRECTORY,
+      "Builds",
+      "web-sdk",
+      files_web_sdk[0]
+    )}`,
+    {
+      cwd: path.join(__dirname, "vue-app"),
+    }
+  );
 
-viteServer.on("error", (data) => {
-  console.log("viteServer");
-  console.log(data);
-});
+  console.log("starting vite-sample-app server at http://localhost:8080");
+
+  const viteServer = child.exec(`npm run serve`, {
+    cwd: path.join(__dirname, "vue-app"),
+  });
+
+  viteServer.on("message", (data) => {
+    console.log("viteServer");
+    console.log(data);
+  });
+
+  viteServer.on("error", (data) => {
+    console.log("viteServer");
+    console.log(data);
+  });
+}
