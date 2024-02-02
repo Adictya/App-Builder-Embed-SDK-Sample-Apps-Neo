@@ -4,7 +4,9 @@ import DeviceSelection from "./DeviceSelection";
 import Events from "./Events";
 import JoinPanel from "./JoinPanel";
 import LoginPanel from "./LoginPanel";
-import JoinOnMount from "./JoinOnMount";
+// import JoinOnMount from "./JoinOnMount";
+import Component from "./MavtekTest";
+import MuteParticipantPanel from "./MuteParticipantPanel";
 
 export default function ConfigPanels() {
   return (
@@ -23,6 +25,7 @@ export default function ConfigPanels() {
       <LoginPanel />
       <JoinPanel />
       <DeviceSelection />
+      <MuteParticipantPanel />
       <Events />
       <CustomEventsPanel />
     </div>
